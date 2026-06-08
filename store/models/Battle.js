@@ -1,38 +1,32 @@
-// Battle model for star battles
-class Battle {
-  constructor() {
-    this.battles = [];
-  }
+// ============================================================
+// store/models/Battle.js — Mongoose Schema va Model
+// ============================================================
 
-  create(star1Id, star2Id) {
-    const battle = {
-      id: Date.now(),
-      star1Id,
-      star2Id,
-      star1Votes: 0,
-      star2Votes: 0,
-      createdAt: new Date(),
-      status: 'active'
-    };
-    this.battles.push(battle);
-    return battle;
-  }
+const mongoose = require('mongoose');
 
-  vote(battleId, starId) {
-    const battle = this.battles.find(b => b.id === battleId);
-    if (battle) {
-      if (battle.star1Id === starId) {
-        battle.star1Votes++;
-      } else if (battle.star2Id === starId) {
-        battle.star2Votes++;
-      }
-    }
-    return battle;
-  }
+const ParticipantSchema = new mongoose.Schema({
+  userId:    { type: Number, required: true },
+  firstName: { type: String, required: true },
+  username:  { type: String, default: null },
+  votes:     { type: Number, default: 0 },
+}, { _id: false }); // sub-document, alohida _id kerak emas
 
-  getById(battleId) {
-    return this.battles.find(b => b.id === battleId);
-  }
-}
+const BattleSchema = new mongoose.Schema({
+  status: {
+    type:    String,
+    enum:    ['idle', 'active', 'finished'],
+    default: 'idle',
+  },
+  currentStage:     { type: Number, default: 0 },
+  participants:     { type: [ParticipantSchema], default: [] },
+  channelMessageId: { type: String, default: null },
+  startedAt:        { type: Number, default: null }, // Unix ms
+  endedAt:          { type: Number, default: null },
+}, {
+  timestamps: true, // createdAt, updatedAt avtomatik
+});
 
-module.exports = new Battle();
+// Faqat bitta "active" musobaqa bo'lishini ta'minlash uchun indeks
+BattleSchema.index({ status: 1 });
+
+module.exports = mongoose.model('Battle', BattleSchema);
