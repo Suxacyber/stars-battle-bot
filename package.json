@@ -1,0 +1,19 @@
+{
+  "name": "stars-battle-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for star battles",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": ["telegram", "bot", "stars", "battle"],
+  "author": "Suxacyber",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.0"
+  }
+}
