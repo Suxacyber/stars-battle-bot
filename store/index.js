@@ -144,7 +144,7 @@ async function getSortedParticipants() {
 
 // ─────────────────────────────────────────────────────────────
 // TO'LOV TARIXI funksiyalari
-// ─────────────────────────────────────────────────────────────
+// ────────��────────────────────────────────────────────────────
 
 /**
  * Muvaffaqiyatli to'lovni bazaga yozish (audit log).
@@ -169,7 +169,7 @@ async function savePayment(data) {
     if (err.code === 11000) {
       console.warn(`⚠️ To'lov allaqachon saqlangan: ${data.chargeId}`);
     } else {
-      console.error('❌ To'lovni saqlashda xato:', err.message);
+      console.error("❌ To'lovni saqlashda xato:", err.message);
       throw err;
     }
   }
